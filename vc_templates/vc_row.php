@@ -6,10 +6,6 @@
 // Make [vc_row] behave like the [content_band] shortcode.
 // =============================================================================
 
-?>
-
-<?php
-
 extract( shortcode_atts( array(
   'class'              => '',
   'style'              => '',
@@ -25,6 +21,7 @@ extract( shortcode_atts( array(
   'inner_container'    => '',
   'parallax'           => '',
   'marginless_columns' => '',
+  'element_id'         => '',
 ), $atts, 'content_band' ) );
 
 $class = ( $class != '' ) ? 'x-content-band vc ' . esc_attr( $class ) : 'x-content-band vc';
@@ -96,6 +93,8 @@ if ( is_numeric( $bg_pattern ) ) {
 
 $count = x_visual_composer_templates_id_increment();
 
+$row_id = ( ! empty( $element_id ) )? $element_id : 'x-content-band-' . $count;
+
 if ( $bg_video != '' ) {
 
   $js_params = array(
@@ -106,7 +105,7 @@ if ( $bg_video != '' ) {
 
   $data = ( function_exists( 'cs_generate_data_attributes' ) ) ? cs_generate_data_attributes( 'content_band', $js_params ) : '';
 
-  $output = "<div id=\"x-content-band-{$count}\" class=\"{$class}{$bg_video_class}{$marginless_columns_class}{$border}{$no_margin}\" {$data} style=\"{$padding_top}{$padding_bottom}{$style}\">"
+  $output = "<div id=\"{$row_id}\" class=\"{$class}{$bg_video_class}{$marginless_columns_class}{$border}{$no_margin}\" {$data} style=\"{$padding_top}{$padding_bottom}{$style}\">"
             . $container_start . do_shortcode( $content ) . $container_end
           . '</div>';
 
@@ -119,7 +118,7 @@ if ( $bg_video != '' ) {
 
   $data = ( function_exists( 'cs_generate_data_attributes' ) ) ? cs_generate_data_attributes( 'content_band', $js_params ) : '';
 
-  $output = "<div id=\"x-content-band-{$count}\" class=\"{$class}{$bg_image_class}{$parallax_class}{$marginless_columns_class}{$border}{$no_margin}\" {$data} style=\"background-image: url({$bg_image}); background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
+  $output = "<div id=\"{$row_id}\" class=\"{$class}{$bg_image_class}{$parallax_class}{$marginless_columns_class}{$border}{$no_margin}\" {$data} style=\"background-image: url({$bg_image}); background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
             . $container_start . do_shortcode( $content ) . $container_end
           . '</div>';
 
@@ -132,13 +131,13 @@ if ( $bg_video != '' ) {
 
   $data = ( function_exists( 'cs_generate_data_attributes' ) ) ? cs_generate_data_attributes( 'content_band', $js_params ) : '';
 
-  $output = "<div id=\"x-content-band-{$count}\" class=\"{$class}{$bg_pattern_class}{$parallax_class}{$marginless_columns_class}{$border}{$no_margin}\" style=\"background-image: url({$bg_pattern}); background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
+  $output = "<div id=\"{$row_id}\" class=\"{$class}{$bg_pattern_class}{$parallax_class}{$marginless_columns_class}{$border}{$no_margin}\" style=\"background-image: url({$bg_pattern}); background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
             . $container_start . do_shortcode( $content ) . $container_end
           . '</div>';
 
 } else {
 
-  $output = "<div id=\"x-content-band-{$count}\" class=\"{$class}{$marginless_columns_class}{$border}{$no_margin}\" style=\"background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
+  $output = "<div id=\"{$row_id}\" class=\"{$class}{$marginless_columns_class}{$border}{$no_margin}\" style=\"background-color: {$bg_color};{$padding_top}{$padding_bottom}{$style}\">"
             . $container_start . do_shortcode( $content ) . $container_end
           . '</div>';
 
